@@ -23,8 +23,8 @@
       <v-app-bar-nav-icon @click="drawer = !drawer" />
 
       <v-app-bar-title>AdvoManager</v-app-bar-title>
-      <v-btn @click="theme.cycle()">Toggle theme</v-btn>
-      <v-btn @click="auth.signOut()">Deslogar</v-btn>
+      <v-btn @click="toggleTheme">Toggle theme</v-btn>
+      <v-btn @click="auth.signOut">Deslogar</v-btn>
     </v-app-bar>
 
     <v-main class="d-flex align-center justify-center">
@@ -38,14 +38,18 @@
 </template>
 
 <script setup>
-  import { useTheme } from 'vuetify'
-  const theme = useTheme()
-
-  import { ref } from 'vue'
-  const drawer = ref(null)
-
   import { useAuthenticator } from '@aws-amplify/ui-vue'
+  import { useTheme } from 'vuetify'
+  import { ref } from 'vue'
+
+  const theme = useTheme()
+  const drawer = ref(null)
   const auth = useAuthenticator()
+
+  const toggleTheme = () => {
+    theme.cycle()
+    document.documentElement.classList.toggle('amplify-dark-theme')
+  }
 
   const links = [
     ['mdi-home', 'Home', '/'],
